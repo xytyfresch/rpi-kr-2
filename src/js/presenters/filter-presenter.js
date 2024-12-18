@@ -6,5 +6,11 @@ export class FilterPresenter {
 
   init() {
     this.filterView.render();
+
+    this.filterView.setOnFilterChange(this.handleFilterChange.bind(this));
+  }
+
+  handleFilterChange(filters) {
+    this.transactionListPresenter.filterTransactions(filters);
   }
 }

@@ -26,5 +26,20 @@ export class FilterView {
       `;
 
     this.filtersContainer.appendChild(filtersElement);
+
+    this.typeFilter = document.getElementById("type-filter");
+    this.categoryFilter = document.getElementById("category-filter");
+  }
+
+  getFilters() {
+    return {
+      type: this.typeFilter.value,
+      category: this.categoryFilter.value,
+    };
+  }
+
+  setOnFilterChange(callback) {
+    this.typeFilter.addEventListener("change", () => callback(this.getFilters()));
+    this.categoryFilter.addEventListener("change", () => callback(this.getFilters()));
   }
 }

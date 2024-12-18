@@ -2,22 +2,30 @@ import { TransactionModel } from "../models/transaction-model.js";
 export class TransactionListPresenter {
   constructor(transactionListView, transactionsData, balancePresenter) {
     this.transactionListView = transactionListView;
+
     this.transactions = transactionsData.map(
       (transaction) => new TransactionModel(transaction)
     );
+
+    this.filteredTransactions = [...this.transactions];
+
     this.balancePresenter = balancePresenter;
+
     this.transactionListView.onDelete = this.handleDeleteTransaction.bind(this);
   }
 
   init() {
-    this.transactionListView.render(this.transactions);
+    this.transactionListView.render(this.filteredTransactions);
     this.balancePresenter.updateBalance(); 
   }
 
   addTransaction(transaction) {
     const newTransaction = new TransactionModel(transaction);
     this.transactions.push(newTransaction);
-    this.transactionListView.render(this.transactions);
+
+    this.applyFilter();
+    this.transactionListView.render(this.filteredTransactions);
+
     this.balancePresenter.updateBalance();
   }
 
@@ -25,8 +33,35 @@ export class TransactionListPresenter {
     this.transactions = this.transactions.filter(
       (transaction) => transaction.id !== transactionId
     );
-    this.transactionListView.render(this.transactions);
+
+    this.applyFilter();
+    this.transactionListView.render(this.filteredTransactions);
+
     this.balancePresenter.updateBalance();
+  }
+
+  applyFilter(filter = {}) {
+    const { type, category } = filter;
+
+    this.filteredTransactions = this.transactions.filter((transaction) => {
+      let matchesType = true;
+      let matchesCategory = true;
+
+      if (type) {
+        matchesType = transaction.type === type;
+      }
+
+      if (category) {
+        matchesCategory = transaction.category === category;
+      }
+
+      return matchesType && matchesCategory;
+    });
+  }
+
+  filterTransactions(filter) {
+    this.applyFilter(filter);
+    this.transactionListView.render(this.filteredTransactions);
   }
 
   getTotalBalance() {
