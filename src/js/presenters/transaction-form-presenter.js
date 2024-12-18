@@ -10,6 +10,13 @@ export class TransactionFormPresenter {
   }
 
   handleFormSubmit(transactionData) {
+    const error = this.transactionFormView.validateForm(transactionData);
+
+    if (error != '') {
+      alert(error);
+      return;
+    }
+
     this.transactionListPresenter.addTransaction(transactionData);
 
     this.transactionFormView.clearForm();

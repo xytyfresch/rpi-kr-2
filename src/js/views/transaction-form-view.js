@@ -45,6 +45,13 @@ export class TransactionFormView {
     };
   }
 
+  validateForm(data) {
+    const error = '';
+    if (isNaN(data.amount) || data.amount <= 0)
+      return "Введите положительное число в поле 'Сумма'.";
+    return error;
+  }
+
   clearForm() {
     this.typeInput.value = "";
     this.categoryInput.value = "";
