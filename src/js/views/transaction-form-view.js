@@ -5,7 +5,6 @@ export class TransactionFormView {
 
   render() {
     const formElement = document.createElement("div");
-
     formElement.classList.add("form-container");
 
     formElement.innerHTML = `
@@ -31,5 +30,31 @@ export class TransactionFormView {
       `;
 
     this.formContainer.appendChild(formElement);
+
+    this.formElement = document.getElementById("transaction-form");
+    this.typeInput = document.getElementById("type");
+    this.categoryInput = document.getElementById("category");
+    this.amountInput = document.getElementById("amount");
+  }
+
+  getFormData() {
+    return {
+      type: this.typeInput.value,
+      category: this.categoryInput.value,
+      amount: parseFloat(this.amountInput.value),
+    };
+  }
+
+  clearForm() {
+    this.typeInput.value = "";
+    this.categoryInput.value = "";
+    this.amountInput.value = "";
+  }
+
+  setOnSubmit(callback) {
+    this.formElement.addEventListener("submit", (event) => {
+      event.preventDefault();
+      callback(this.getFormData());
+    });
   }
 }

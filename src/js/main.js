@@ -13,10 +13,13 @@ const transactionFormView = new TransactionFormView();
 const filterView = new FilterView();
 const balanceView = new BalanceView();
 
+const balancePresenter = new BalancePresenter(balanceView);
 const transactionListPresenter = new TransactionListPresenter(
   transactionListView,
-  TRANSACTIONS_DATA
+  TRANSACTIONS_DATA,
+  balancePresenter
 );
+balancePresenter.setTransactionListPresenter(transactionListPresenter);
 transactionListPresenter.init();
 
 const transactionFormPresenter = new TransactionFormPresenter(
@@ -30,9 +33,3 @@ const filterPresenter = new FilterPresenter(
   transactionListPresenter
 );
 filterPresenter.init();
-
-const balancePresenter = new BalancePresenter(
-  balanceView,
-  transactionListPresenter
-);
-balancePresenter.init();

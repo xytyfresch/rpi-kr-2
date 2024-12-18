@@ -3,10 +3,9 @@ export class BalanceView {
     this.balanceContainer = document.querySelector(".balance");
   }
 
-  render() {
-    const balance = 200;
+  render(balance) {
     this.balanceContainer.innerHTML = `
-        <h2>Общий баланс: <span id="total-balance">${balance}</span> руб.</h2>
-      `;
+      <h2>Общий баланс: <span id="total-balance">${balance}</span> руб.</h2>
+    `;
   }
 }
